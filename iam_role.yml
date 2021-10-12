@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: This is my first iam role
+Resources:
+  dynamodbPermissions:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: TestRole
+            Effect: Allow
+            Principal:
+              Service:
+                - cloudformation.amazonaws.com
+              AWS:
+                - !Join
+                  - ""
+                  - - "arn:aws:iam::"
+                    - !Ref "AWS::AccountId"
+                    - ":user/umesh_u1"
+            Action: "sts:AssumeRole"
+      ManagedPolicyArns:
+          - "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+          - "arn:aws:iam::aws:policy/AWSCloudFormationFullAccess"
+Outputs:
+  dynamodbPermissions:
+    Value: !GetAtt dynamodbPermissions.Arn
+
+
+
